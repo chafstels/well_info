@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Well Information</title>
+</head>
+<body>
+    <h1>Well Information</h1>
+    <ul>
+        <li>OIL_GAS_CODE: {{ well.OIL_GAS_CODE }}</li>
+        <li>DISTRICT_NO: {{ well.DISTRICT_NO }}</li>
+        <li>LEASE_NO: {{ well.LEASE_NO }}</li>
+        <li>WELL_NO: {{ well.WELL_NO }}</li>
+        <li>API_COUNTY_CODE: {{ well.API_COUNTY_CODE }}</li>
+        <li>API_UNIQUE_NO: {{ well.API_UNIQUE_NO }}</li>
+        <li>COUNTY_NAME: {{ well.COUNTY_NAME }}</li>
+        <li>DISTRICT_NAME: {{ well.DISTRICT_NAME }}</li>
+        <!-- Другие поля по необходимости -->
+    </ul>
+    <h2>Related API Numbers</h2>
+    {% if related_apis %}
+        <ul>
+        {% for api in related_apis %}
+            <li>API County Code: {{ api.API_COUNTY_CODE }}, API Unique No: {{ api.API_UNIQUE_NO }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No related APIs found for this Lease No and District No.</p>
+    {% endif %}
+
+    <h2>Production Summary</h2>
+
+    {% if production_data %}
+    <table border="1">
+        <tr>
+            <th>Period</th>
+            <th>Oil Production (Total)</th>
+            <th>Gas Production (Total)</th>
+            <th>Condensate Production (Total)</th>
+        </tr>
+        <tr>
+            <td>First Month</td>
+            <td>{{ production_summary.first_month.total_oil }}</td>
+            <td>{{ production_summary.first_month.total_gas }}</td>
+            <td>{{ production_summary.first_month.total_condensate }}</td>
+        </tr>
+        <tr>
+            <td>First 3 Months</td>
+            <td>{{ production_summary.first_3_months.total_oil }}</td>
+            <td>{{ production_summary.first_3_months.total_gas }}</td>
+            <td>{{ production_summary.first_3_months.total_condensate }}</td>
+        </tr>
+        <tr>
+            <td>First 6 Months</td>
+            <td>{{ production_summary.first_6_months.total_oil }}</td>
+            <td>{{ production_summary.first_6_months.total_gas }}</td>
+            <td>{{ production_summary.first_6_months.total_condensate }}</td>
+        </tr>
+        <tr>
+            <td>First 12 Months</td>
+            <td>{{ production_summary.first_12_months.total_oil }}</td>
+            <td>{{ production_summary.first_12_months.total_gas }}</td>
+            <td>{{ production_summary.first_12_months.total_condensate }}</td>
+        </tr>
+        <tr>
+            <td>All Time</td>
+            <td>{{ production_summary.all_time.total_oil }}</td>
+            <td>{{ production_summary.all_time.total_gas }}</td>
+            <td>{{ production_summary.all_time.total_condensate }}</td>
+        </tr>
+    </table>
+    <h2>Production Data</h2>
+    <table border="1">
+        <tr>
+            <th>CYCLE YEAR</th>
+            <th>CYCLE MONTH</th>
+            <th>OIL PRODUCTION VOLUME</th>
+            <th>GAS PRODUCTION VOLUME</th>
+            <th>CONDENSATE PRODUCTION VOLUME</th>
+            <th>LEASE NAME</th>
+        </tr>
+        {% for data in production_data %}
+        <tr>
+            <td>{{ data.CYCLE_YEAR }}</td>
+            <td>{{ data.CYCLE_MONTH }}</td>
+            <td>{{ data.LEASE_OIL_PROD_VOL }}</td>
+            <td>{{ data.LEASE_GAS_PROD_VOL }}</td>
+            <td>{{ data.LEASE_COND_PROD_VOL }}</td>
+            <td>{{ data.LEASE_NAME }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No production data available for this well.</p>
+    {% endif %}
+
+    <a href="/well/search">Back to Search</a>
+</body>
+</html>
